@@ -1,0 +1,47 @@
+def find_sum_numbers(x, numbers):
+    # Recursive function to find numbers that sum up to x
+    def find_combinations(target, current_sum, index, current_combination, results):
+        if current_sum == target:
+            results.append(current_combination[:])
+            return
+        elif current_sum > target or index >= len(numbers):
+            return
+
+        # Include the current number
+        current_combination.append(numbers[index])
+        find_combinations(target, current_sum + numbers[index], index + 1, current_combination, results)
+        current_combination.pop()
+
+        # Exclude the current number
+        find_combinations(target, current_sum, index + 1, current_combination, results)
+
+    # Initialize the results list
+    result_list = []
+
+    # Call the recursive function to find the combinations
+    find_combinations(x, 0, 0, [], result_list)
+
+    return result_list
+
+
+# Ask for the number x
+x = float(input("Enter the target number (x): "))
+
+# Ask for the list of numbers
+numbers = []
+n = int(input("Enter the number of elements in the list: "))
+print("Enter the numbers:")
+for i in range(n):
+    num = float(input())
+    numbers.append(num)
+
+# Call the function to find the numbers that sum up to x
+result = find_sum_numbers(x, numbers)
+
+# Print the result
+print("Numbers that sum up to", x, ":")
+if len(result) > 0:
+    for combination in result:
+        print(combination)
+else:
+    print("No combination found.")
